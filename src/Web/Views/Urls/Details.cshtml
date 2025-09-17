@@ -1,0 +1,41 @@
+
+@* Widok do wyświetlania szczegółów skróconego URL-a *@
+@model Domain.Entities.UrlMapping
+@{
+    ViewData["Title"] = "Szczegóły";
+    var shortUrl = (string)ViewBag.ShortUrl;
+}
+<h2>Szczegóły</h2>
+
+<dl class="row">
+    <dt class="col-sm-2">Slug</dt><dd class="col-sm-10">@Model.Slug</dd>
+    <dt class="col-sm-2">Skrót</dt><dd class="col-sm-10"><a href="@shortUrl" target="_blank">@shortUrl</a></dd>
+    <dt class="col-sm-2">Oryginał</dt><dd class="col-sm-10"><a href="@Model.OriginalUrl" target="_blank">@Model.OriginalUrl</a></dd>
+    <dt class="col-sm-2">Kliknięcia</dt><dd class="col-sm-10">@Model.TotalClicks</dd>
+    <dt class="col-sm-2">Utworzono</dt><dd class="col-sm-10">@Model.CreatedAtUtc.ToString("u")</dd>
+</dl>
+
+<h3>Kod QR</h3>
+<img src="/Urls/Qr/@Model.Id" alt="Kod QR" style="max-width:240px;"/>
+<h3>Statystyka krajów</h3>
+@{
+    var stats = ViewBag.CountryStats as IReadOnlyList<ValueTuple<string, long>>;
+}
+@if (stats is { Count: > 0 })
+{
+    <table class="table table-sm">
+        <thead><tr><th>Kraj</th><th>Kliknięcia</th></tr></thead>
+        <tbody>
+        @foreach (var item in stats)
+        {
+            <tr><td>@item.Item1</td><td>@item.Item2</td></tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-muted">Brak danych krajów (np. kliknięcia z localhost).</p>
+}
+
+<p><a asp-action="Index">← powrót</a></p>

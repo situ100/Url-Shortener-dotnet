@@ -1,0 +1,31 @@
+@* Widok do wyświetlania listy skróconych URL-i *@
+@model IEnumerable<Domain.Entities.UrlMapping>
+@{
+    ViewData["Title"] = "Lista linków";
+}
+<h2>Lista linków</h2>
+
+<p><a asp-action="Create" class="btn btn-sm btn-success">+ Nowy</a></p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Slug</th>
+            <th>Oryginał</th>
+            <th>Kliknięcia</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var u in Model)
+    {
+        var shortUrl = $"{Context.Request.Scheme}://{Context.Request.Host}/{u.Slug}";
+        <tr>
+            <td><a href="@shortUrl" target="_blank">@u.Slug</a></td>
+            <td><a href="@u.OriginalUrl" target="_blank">@u.OriginalUrl</a></td>
+            <td>@u.TotalClicks</td>
+            <td><a asp-action="Details" asp-route-id="@u.Id">Szczegóły</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,31 @@
+# Build
+bin/
+obj/
+out/
+artifacts/
+
+# User-specific
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+.history/
+*.code-workspace
+
+# Logs
+*.log
+*.tlog
+
+# Test results
+TestResults/
+*.coverage
+*.coveragexml
+
+# EF Core Migrations design-time files
+*Migrations/obj/
+
+# Docker
+docker/db_data/
